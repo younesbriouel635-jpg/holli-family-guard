@@ -65,6 +65,7 @@ function HolliApp() {
   const [screen, setScreen] = useState<Screen>("lang");
   const [profile, setProfile] = useState<Profile>("men");
   const [data, setData] = useState<UserData>({
+    email: "",
     name: "", gender: "", age: 30,
     goalTitle: "", goalIcon: "✨",
     goalPrice: 25000, months: 18, monthlyIncome: 4500,
