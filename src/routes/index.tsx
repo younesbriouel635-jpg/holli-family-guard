@@ -185,6 +185,129 @@ function WelcomeScreen({ lang, onNext }: { lang: LangCode; onNext: () => void })
   );
 }
 
+function AuthScreen({ data, setData, onBack, onNext }: { data: UserData; setData: (d: UserData) => void; onBack: () => void; onNext: () => void }) {
+  const [email, setEmail] = useState(data.email);
+  const [focused, setFocused] = useState(false);
+  const [phase, setPhase] = useState<"idle" | "securing" | "done">("idle");
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleAuth = (finalEmail: string) => {
+    if (phase !== "idle") return;
+    setEmail(finalEmail);
+    setPhase("securing");
+    setTimeout(() => {
+      setData({ ...data, email: finalEmail });
+      try { localStorage.setItem("holli:email", finalEmail); } catch {}
+      setPhase("done");
+      setTimeout(onNext, 700);
+    }, 1100);
+  };
+
+  return (
+    <div className="flex flex-1 flex-col px-6 pt-14 pb-10">
+      <StepHeader step={0} of={3} title="Secure Access" subtitle="Your private gateway into HOLLI." onBack={onBack} />
+
+      <div className="mt-10 flex flex-col items-center">
+        <div className="relative">
+          <div className="absolute inset-0 -z-10 blur-2xl glow-theme rounded-full" />
+          <div className="glass-theme flex h-16 w-16 items-center justify-center rounded-2xl">
+            <Lock className="h-7 w-7 text-theme" strokeWidth={1.4} />
+          </div>
+        </div>
+        <p style={{ fontFamily: "var(--font-display)" }} className="mt-5 text-xl font-medium tracking-tight">
+          End-to-end encrypted vault
+        </p>
+        <p className="mt-1 text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+          Your email · your legacy
+        </p>
+      </div>
+
+      {/* Email field */}
+      <div
+        className={`mt-9 rounded-3xl p-[1px] transition-all duration-500 ${
+          focused || valid ? "glow-theme" : ""
+        }`}
+        style={{
+          background: focused || valid
+            ? "linear-gradient(135deg, color-mix(in oklab, var(--theme) 70%, transparent), color-mix(in oklab, var(--theme-soft) 30%, transparent))"
+            : "rgba(255,255,255,0.08)",
+        }}
+      >
+        <div className="rounded-[calc(1.5rem-1px)] bg-[#080808] px-5 py-4">
+          <label className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Gmail address</label>
+          <input
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value.trim())}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            disabled={phase !== "idle"}
+            placeholder="you@gmail.com"
+            className="mt-1 w-full bg-transparent text-lg font-medium outline-none placeholder:text-white/15"
+          />
+        </div>
+      </div>
+
+      {/* Google button */}
+      <button
+        onClick={() => handleAuth(valid ? email : "guardian@gmail.com")}
+        disabled={phase !== "idle"}
+        className="mt-4 flex w-full items-center justify-center gap-3 rounded-full glass border border-white/15 py-4 text-[15px] font-medium transition-all hover:border-white/30 active:scale-[0.98] disabled:opacity-60"
+      >
+        <svg viewBox="0 0 48 48" className="h-5 w-5" aria-hidden>
+          <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.3-.4-3.5z"/>
+          <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+          <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+          <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.6l6.2 5.2C41.4 35.6 44 30.2 44 24c0-1.2-.1-2.3-.4-3.5z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <div className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+        <div className="h-px flex-1 bg-white/10" />or<div className="h-px flex-1 bg-white/10" />
+      </div>
+
+      <button
+        onClick={() => handleAuth(email)}
+        disabled={!valid || phase !== "idle"}
+        className="mt-4 w-full rounded-full bg-theme py-4 text-base font-semibold text-black glow-theme transition active:scale-[0.98] disabled:opacity-30 disabled:glow-theme-none"
+      >
+        {phase === "securing" ? "Securing…" : phase === "done" ? "✓ Vault unlocked" : "Continue with Email →"}
+      </button>
+
+      <p className="mt-5 text-center text-[10px] leading-relaxed text-muted-foreground">
+        <Shield className="mr-1 inline h-3 w-3 text-theme" />
+        AES-256 encrypted · Never shared · Family-bound
+      </p>
+
+      {/* Securing overlay */}
+      {phase !== "idle" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl animate-fade-in">
+          <div className="flex flex-col items-center gap-5">
+            <div className="relative h-20 w-20">
+              <div className="absolute inset-0 rounded-full border border-theme/30" />
+              <div className="absolute inset-0 rounded-full border-t-2 border-theme animate-spin" style={{ animationDuration: "1.1s" }} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                {phase === "done"
+                  ? <Check className="h-8 w-8 text-theme" strokeWidth={2.5} />
+                  : <Lock className="h-7 w-7 text-theme" strokeWidth={1.4} />}
+              </div>
+            </div>
+            <div className="text-center">
+              <div style={{ fontFamily: "var(--font-display)" }} className="text-lg font-medium">
+                {phase === "done" ? "Identity confirmed" : "Encrypting your vault"}
+              </div>
+              <div className="mt-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{email}</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ProfileScreen({ data, setData, onNext }: { data: UserData; setData: (d: UserData) => void; onNext: () => void }) {
   const valid = data.name.trim().length > 1 && data.gender !== "" && data.age > 0;
   return (
