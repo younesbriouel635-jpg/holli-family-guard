@@ -90,7 +90,8 @@ function HolliApp() {
     >
       <div className="mx-auto flex min-h-screen w-full max-w-md flex-col">
         {screen === "lang" && <LanguageScreen lang={lang} setLang={setLang} onNext={() => setScreen("welcome")} />}
-        {screen === "welcome" && <WelcomeScreen lang={lang} onNext={() => setScreen("profile")} />}
+        {screen === "welcome" && <WelcomeScreen lang={lang} onNext={() => setScreen("auth")} />}
+        {screen === "auth" && <AuthScreen data={data} setData={setData} onBack={() => setScreen("welcome")} onNext={() => setScreen("profile")} />}
         {screen === "profile" && <ProfileScreen data={data} setData={setData} onNext={() => setScreen("goal")} />}
         {screen === "goal" && <GoalScreen data={data} setData={setData} onBack={() => setScreen("profile")} onNext={() => setScreen("budget")} />}
         {screen === "budget" && <BudgetScreen data={data} setData={setData} onBack={() => setScreen("goal")} onNext={() => setScreen("dashboard")} />}
