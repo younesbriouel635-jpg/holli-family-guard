@@ -45,9 +45,10 @@ const T: Record<string, Record<LangCode, string>> = {
 
 // ---------- Types ----------
 type Profile = "men" | "women" | "boys" | "girls" | "kid";
-type Screen = "lang" | "welcome" | "profile" | "goal" | "budget" | "dashboard" | "squad" | "vault" | "pricing";
+type Screen = "lang" | "welcome" | "auth" | "profile" | "goal" | "budget" | "dashboard" | "squad" | "vault" | "pricing";
 
 interface UserData {
+  email: string;
   name: string;
   gender: "male" | "female" | "";
   age: number;
