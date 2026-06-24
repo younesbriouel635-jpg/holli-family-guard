@@ -721,11 +721,11 @@ function Dashboard({ data }: { data: UserData }) {
 
 function SquadScreen({ data }: { data: UserData }) {
   const squad = [
-    { name: data.name || "You", role: "You", streak: 47, theme: "men", emoji: "👨", goal: data.goalTitle },
-    { name: "Layla", role: "Mother", streak: 62, theme: "women", emoji: "👩", goal: "Spa Sanctuary" },
-    { name: "Adam", role: "Son", streak: 28, theme: "boys", emoji: "🧑", goal: "Gaming PC" },
-    { name: "Maya", role: "Daughter", streak: 35, theme: "girls", emoji: "👧", goal: "Art Easel" },
-    { name: "Noah", role: "Kid", streak: 12, theme: "kid", emoji: "🧒", goal: "LEGO Set" },
+    { name: data.name || "You", role: "You", streak: 47, theme: "men", emoji: "👨", goal: data.goalTitle, email: data.email || "you@gmail.com" },
+    { name: "Layla", role: "Mother", streak: 62, theme: "women", emoji: "👩", goal: "Spa Sanctuary", email: "layla.h@gmail.com" },
+    { name: "Adam", role: "Son", streak: 28, theme: "boys", emoji: "🧑", goal: "Gaming PC", email: "adam.h@gmail.com" },
+    { name: "Maya", role: "Daughter", streak: 35, theme: "girls", emoji: "👧", goal: "Art Easel", email: "maya.h@gmail.com" },
+    { name: "Noah", role: "Kid", streak: 12, theme: "kid", emoji: "🧒", goal: "LEGO Set", email: "noah.h@gmail.com" },
   ].sort((a, b) => b.streak - a.streak);
 
   return (
