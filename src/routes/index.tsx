@@ -767,14 +767,20 @@ function SquadScreen({ data }: { data: UserData }) {
         <div className="mt-3 space-y-2">
           {squad.filter(m => m.role === "Son" || m.role === "Daughter" || m.role === "Kid").map((m) => (
             <div key={m.name} className="glass flex items-center justify-between rounded-2xl p-3">
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
                 <span className="text-xl">{m.emoji}</span>
-                <div>
-                  <div className="text-sm font-medium">{m.name}</div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">{m.name}</span>
+                    <span className="inline-flex items-center gap-1 rounded-full border border-theme/30 px-1.5 py-0.5 text-[8px] uppercase tracking-widest text-theme">
+                      <Check className="h-2.5 w-2.5" strokeWidth={3} /> synced
+                    </span>
+                  </div>
+                  <div className="truncate text-[10px] text-muted-foreground">{m.email}</div>
                   <div className="text-[10px] text-muted-foreground">{m.goal} · 41% funded</div>
                 </div>
               </div>
-              <button className="rounded-full border border-white/10 px-3 py-1.5 text-[11px]">
+              <button className="shrink-0 rounded-full border border-white/10 px-3 py-1.5 text-[11px]">
                 Boost <ChevronRight className="inline h-3 w-3" />
               </button>
             </div>
