@@ -1,12 +1,13 @@
-import { useMemo, useState } from "react";
+import type { ReactElement } from "react";
+import { useState } from "react";
 import {
   Sparkles, TrendingUp, TrendingDown, Wallet, PiggyBank, LineChart,
   Calendar as CalIcon, Repeat, Award, Baby, Scroll, Activity, Brain,
   ArrowUpRight, ArrowDownRight, ChevronRight, Home as HomeIcon, Car,
-  Plane, Ring as RingIcon, Briefcase, Heart, GraduationCap, DollarSign,
+  Plane, Gem as RingIcon, Briefcase, Heart, GraduationCap, DollarSign,
   Zap, ShieldCheck, Bell, FileText, Users, Trophy, Target, Gamepad2,
-  BookOpen, Star, Lock, Gift, Coffee, Music, Tv, CreditCard, ArrowRight,
-  Info, CheckCircle2, AlertCircle, MinusCircle, PlusCircle,
+  BookOpen, Lock, Gift, Coffee, Music, Tv, CreditCard,
+  Info, CheckCircle2, AlertCircle,
 } from "lucide-react";
 
 // ---------- AI Copilot ----------
