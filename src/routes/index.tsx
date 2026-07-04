@@ -101,7 +101,10 @@ function HolliApp() {
         {screen === "profile" && <ProfileScreen data={data} setData={setData} onNext={() => setScreen("goal")} />}
         {screen === "goal" && <GoalScreen data={data} setData={setData} onBack={() => setScreen("profile")} onNext={() => setScreen("budget")} />}
         {screen === "budget" && <BudgetScreen data={data} setData={setData} onBack={() => setScreen("goal")} onNext={() => setScreen("dashboard")} />}
-        {(screen === "dashboard" || screen === "squad" || screen === "vault" || screen === "pricing") && (
+        {(screen === "dashboard" || screen === "squad" || screen === "vault" || screen === "pricing" || screen === "more" ||
+          screen === "wealth" || screen === "timeline" || screen === "simulator" || screen === "calendar" ||
+          screen === "subscriptions" || screen === "missions" || screen === "child" || screen === "legacy" ||
+          screen === "insights" || screen === "dna") && (
           <MainApp screen={screen} setScreen={setScreen} data={data} profile={profile} setProfile={setProfile} />
         )}
       </div>
