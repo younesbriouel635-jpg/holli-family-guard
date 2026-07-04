@@ -548,6 +548,17 @@ function MainApp({ screen, setScreen, data, profile, setProfile }: {
       {screen === "squad" && <SquadScreen data={data} />}
       {screen === "vault" && <VaultScreen data={data} />}
       {screen === "pricing" && <PricingScreen />}
+      {screen === "more" && <MoreHub open={(s) => setScreen(s)} />}
+      {screen === "wealth" && <WealthScreen income={data.monthlyIncome} />}
+      {screen === "timeline" && <TimelineScreen />}
+      {screen === "simulator" && <SimulatorScreen baseIncome={data.monthlyIncome} />}
+      {screen === "calendar" && <CalendarScreen />}
+      {screen === "subscriptions" && <SubscriptionsScreen />}
+      {screen === "missions" && <MissionsScreen />}
+      {screen === "child" && <ChildScreen />}
+      {screen === "legacy" && <LegacyScreen />}
+      {screen === "insights" && <InsightsScreen />}
+      {screen === "dna" && <DNAScreen />}
       <BottomNav screen={screen} setScreen={setScreen} />
     </div>
   );
