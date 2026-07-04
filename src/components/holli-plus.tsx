@@ -19,7 +19,7 @@ export interface CopilotMsg {
   detail?: string;
 }
 
-const toneStyles: Record<CopilotTone, { border: string; icon: JSX.Element; label: string }> = {
+const toneStyles: Record<CopilotTone, { border: string; icon: ReactElement; label: string }> = {
   positive: { border: "border-emerald-400/30", icon: <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />, label: "Ahead" },
   warning:  { border: "border-amber-400/30",   icon: <AlertCircle className="h-3.5 w-3.5 text-amber-400" />,   label: "Watch" },
   insight:  { border: "border-theme/40",       icon: <Sparkles className="h-3.5 w-3.5 text-theme" />,          label: "Copilot" },
