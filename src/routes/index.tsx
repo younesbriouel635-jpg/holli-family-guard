@@ -660,6 +660,22 @@ function Dashboard({ data }: { data: UserData }) {
         </div>
       </div>
 
+      {/* AI Copilot woven into the dashboard */}
+      <AICopilot messages={[
+        { tone: overspend ? "warning" : "positive",
+          text: overspend
+            ? `You're $${(spent - dailyBudget).toFixed(2)} over today. This delays "${data.goalTitle || "your goal"}" by ~${Math.ceil((spent - dailyBudget)/dailyBudget)} days.`
+            : `You can safely spend $${remaining.toFixed(2)} more today.`,
+          detail: `Daily lock $${dailyBudget.toFixed(2)} · Streak ${streak}d`,
+        },
+        { tone: "insight", text: "You usually overspend every Friday by ~34%.", detail: "Copilot can auto-lock a Friday cap." },
+        { tone: "positive", text: "You're 17% ahead of your monthly savings target." },
+        { tone: "warning", text: "3 subscriptions look unused — potential savings $820/yr.", detail: "Tap Subscriptions to review" },
+      ]} />
+
+      {/* HOLLI Wealth Score */}
+      <WealthScoreCard score={782} delta={14} />
+
       {/* Quick category preview */}
       <div className="mt-4 grid grid-cols-4 gap-2">
         {[
