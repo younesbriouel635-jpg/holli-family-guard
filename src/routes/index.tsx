@@ -1007,6 +1007,7 @@ function BottomNav({ screen, setScreen }: { screen: Screen; setScreen: (s: Scree
     { id: "dashboard" as const, icon: Shield, label: "Guard" },
     { id: "squad" as const, icon: Users, label: "Squad" },
     { id: "vault" as const, icon: Target, label: "Vault" },
+    { id: "more" as const, icon: MoreHorizontal, label: "More" },
     { id: "pricing" as const, icon: Crown, label: "Pass" },
   ];
   return (
