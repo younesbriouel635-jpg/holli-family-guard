@@ -1,11 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Globe, Check, Flame, Plus, AlertTriangle, Crown, Sparkles, Target,
   Car, Home as HomeIcon, ShoppingBag, Briefcase, GraduationCap, Coffee,
-  Utensils, Fuel, Film, Gift, Heart, Bus, ArrowRight, ArrowLeft,
-  Users, Trophy, Eye, Lock, Star, Zap, Shield, ChevronRight,
+  Utensils, Fuel, Film, Gift, Heart, Bus, ArrowLeft,
+  Users, Trophy, Eye, Lock, Zap, Shield, ChevronRight, MoreHorizontal,
 } from "lucide-react";
+import {
+  AICopilot, WealthScoreCard, MoreHub, WealthScreen, TimelineScreen,
+  SimulatorScreen, CalendarScreen, SubscriptionsScreen, MissionsScreen,
+  ChildScreen, LegacyScreen, InsightsScreen, DNAScreen,
+  type PlusScreen,
+} from "@/components/holli-plus";
 
 export const Route = createFileRoute("/")({
   head: () => ({
