@@ -1,11 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Globe, Check, Flame, Plus, AlertTriangle, Crown, Sparkles, Target,
   Car, Home as HomeIcon, ShoppingBag, Briefcase, GraduationCap, Coffee,
-  Utensils, Fuel, Film, Gift, Heart, Bus, ArrowRight, ArrowLeft,
-  Users, Trophy, Eye, Lock, Star, Zap, Shield, ChevronRight,
+  Utensils, Fuel, Film, Gift, Heart, Bus, ArrowLeft,
+  Users, Trophy, Eye, Lock, Zap, Shield, ChevronRight, MoreHorizontal,
 } from "lucide-react";
+import {
+  AICopilot, WealthScoreCard, MoreHub, WealthScreen, TimelineScreen,
+  SimulatorScreen, CalendarScreen, SubscriptionsScreen, MissionsScreen,
+  ChildScreen, LegacyScreen, InsightsScreen, DNAScreen,
+  type PlusScreen,
+} from "@/components/holli-plus";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -45,7 +51,7 @@ const T: Record<string, Record<LangCode, string>> = {
 
 // ---------- Types ----------
 type Profile = "men" | "women" | "boys" | "girls" | "kid";
-type Screen = "lang" | "welcome" | "auth" | "profile" | "goal" | "budget" | "dashboard" | "squad" | "vault" | "pricing";
+type Screen = "lang" | "welcome" | "auth" | "profile" | "goal" | "budget" | "dashboard" | "squad" | "vault" | "pricing" | "more" | PlusScreen;
 
 interface UserData {
   email: string;
@@ -95,7 +101,10 @@ function HolliApp() {
         {screen === "profile" && <ProfileScreen data={data} setData={setData} onNext={() => setScreen("goal")} />}
         {screen === "goal" && <GoalScreen data={data} setData={setData} onBack={() => setScreen("profile")} onNext={() => setScreen("budget")} />}
         {screen === "budget" && <BudgetScreen data={data} setData={setData} onBack={() => setScreen("goal")} onNext={() => setScreen("dashboard")} />}
-        {(screen === "dashboard" || screen === "squad" || screen === "vault" || screen === "pricing") && (
+        {(screen === "dashboard" || screen === "squad" || screen === "vault" || screen === "pricing" || screen === "more" ||
+          screen === "wealth" || screen === "timeline" || screen === "simulator" || screen === "calendar" ||
+          screen === "subscriptions" || screen === "missions" || screen === "child" || screen === "legacy" ||
+          screen === "insights" || screen === "dna") && (
           <MainApp screen={screen} setScreen={setScreen} data={data} profile={profile} setProfile={setProfile} />
         )}
       </div>
@@ -539,6 +548,17 @@ function MainApp({ screen, setScreen, data, profile, setProfile }: {
       {screen === "squad" && <SquadScreen data={data} />}
       {screen === "vault" && <VaultScreen data={data} />}
       {screen === "pricing" && <PricingScreen />}
+      {screen === "more" && <MoreHub open={(s) => setScreen(s)} />}
+      {screen === "wealth" && <WealthScreen income={data.monthlyIncome} />}
+      {screen === "timeline" && <TimelineScreen />}
+      {screen === "simulator" && <SimulatorScreen baseIncome={data.monthlyIncome} />}
+      {screen === "calendar" && <CalendarScreen />}
+      {screen === "subscriptions" && <SubscriptionsScreen />}
+      {screen === "missions" && <MissionsScreen />}
+      {screen === "child" && <ChildScreen />}
+      {screen === "legacy" && <LegacyScreen />}
+      {screen === "insights" && <InsightsScreen />}
+      {screen === "dna" && <DNAScreen />}
       <BottomNav screen={screen} setScreen={setScreen} />
     </div>
   );
@@ -639,6 +659,22 @@ function Dashboard({ data }: { data: UserData }) {
           <div className="h-full rounded-full bg-theme glow-theme" style={{ width: "23%" }} />
         </div>
       </div>
+
+      {/* AI Copilot woven into the dashboard */}
+      <AICopilot messages={[
+        { tone: overspend ? "warning" : "positive",
+          text: overspend
+            ? `You're $${(spent - dailyBudget).toFixed(2)} over today. This delays "${data.goalTitle || "your goal"}" by ~${Math.ceil((spent - dailyBudget)/dailyBudget)} days.`
+            : `You can safely spend $${remaining.toFixed(2)} more today.`,
+          detail: `Daily lock $${dailyBudget.toFixed(2)} · Streak ${streak}d`,
+        },
+        { tone: "insight", text: "You usually overspend every Friday by ~34%.", detail: "Copilot can auto-lock a Friday cap." },
+        { tone: "positive", text: "You're 17% ahead of your monthly savings target." },
+        { tone: "warning", text: "3 subscriptions look unused — potential savings $820/yr.", detail: "Tap Subscriptions to review" },
+      ]} />
+
+      {/* HOLLI Wealth Score */}
+      <WealthScoreCard score={782} delta={14} />
 
       {/* Quick category preview */}
       <div className="mt-4 grid grid-cols-4 gap-2">
@@ -971,6 +1007,7 @@ function BottomNav({ screen, setScreen }: { screen: Screen; setScreen: (s: Scree
     { id: "dashboard" as const, icon: Shield, label: "Guard" },
     { id: "squad" as const, icon: Users, label: "Squad" },
     { id: "vault" as const, icon: Target, label: "Vault" },
+    { id: "more" as const, icon: MoreHorizontal, label: "More" },
     { id: "pricing" as const, icon: Crown, label: "Pass" },
   ];
   return (
